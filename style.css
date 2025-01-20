@@ -1,0 +1,11 @@
+* {
+    box-sizing:  border-box;
+}
+.shopping-list li {
+    gap: 5px;
+    background-color:palegoldenrod;
+    
+}
+.shopping-list li .item-name{
+    flex:1;
+}
