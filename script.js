@@ -1,12 +1,17 @@
 const shoppingList=document.querySelector(".shopping-list");
+const shoppingForm=document.querySelector(".shopping-form");
+
+
 
 loadItems();
+shoppingForm.addEventListener("submit",handleFormSubmit);
 
 function loadItems() {
     const items= [
         {id:1, name:"Egg", completed:false},
         {id:2 ,name:"Fish",completed:true},
-        {id:3 ,name:"Milk", completed:false}
+        {id:3 ,name:"Milk", completed:false},
+        {id:4 ,name:"Bread",completed:false},
 
     ];
 
@@ -15,10 +20,35 @@ function loadItems() {
     for(let item of items) {
         const li=createListItem(item);
         shoppingList.appendChild(li);
+    
         
     }
 }
+function addItem(input) {
+    const newItem=createListItem({
+        id: generateId(),
+        name: input.value,
+        completed: false
+    });
 
+    shoppingList.appendChild(newItem);
+    input.value="";
+
+}
+function generateId() {
+    return Date.now().toString();
+}
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    const input=document.getElementById("item_name");
+
+    if(input.value.trim()===0) {
+        alert("Yeni bir değer giriniz!");
+        return;
+    }
+    addItem(input);
+}
 function createListItem(item) {
     // checkbox
     const input=document.createElement("input");
