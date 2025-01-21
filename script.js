@@ -2,9 +2,11 @@ const shoppingList=document.querySelector(".shopping-list");
 const shoppingForm=document.querySelector(".shopping-form");
 
 
+document.addEventListener("DOMContentLoaded", function() {
+    loadItems();
+    shoppingForm.addEventListener("submit",handleFormSubmit);
+} )
 
-loadItems();
-shoppingForm.addEventListener("submit",handleFormSubmit);
 
 function loadItems() {
     const items= [
@@ -54,6 +56,11 @@ function handleFormSubmit(e) {
     li.toggleAttribute("item-completed",e.target.checked);
  }
 
+ function removeItem(e) {
+    const li= e.target.parentElement;
+    shoppingList.removeChild(li);
+
+ }
 function createListItem(item) {
     // checkbox
     const input=document.createElement("input");
@@ -70,6 +77,7 @@ function createListItem(item) {
     // delete icon
     const deleteIcon=document.createElement("span");
     deleteIcon.className="s-3 bi bi-x text-danger delete-icon";
+    deleteIcon.addEventListener("click",removeItem);
     // li
     const li=document.createElement("li");
     li.className="border rounded p-3 mb-1 d-flex align-items-center";

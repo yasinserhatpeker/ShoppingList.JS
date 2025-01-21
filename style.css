@@ -14,6 +14,7 @@
 .shopping-list li .delete-icon{
     transform: scale(0);
     transition: 200ms;
+    font-size: 30px !important;
 }
 .shopping-list li:hover .delete-icon{
     transform: scale(1);
@@ -22,6 +23,6 @@
 .shopping-list li[item-completed] .item-name {
     text-decoration: line-through;
     color: #999;
-    
+
 
 }
