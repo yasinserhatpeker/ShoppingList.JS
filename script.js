@@ -43,23 +43,29 @@ function handleFormSubmit(e) {
 
     const input=document.getElementById("item_name");
 
-    if(input.value.trim()===0) {
+    if(input.value.trim().length===0) {
         alert("Yeni bir değer giriniz!");
         return;
     }
     addItem(input);
 }
+ function toggleCompleted(e) {
+    const li =e.target.parentElement;
+    li.toggleAttribute("item-completed",e.target.checked);
+ }
+
 function createListItem(item) {
     // checkbox
     const input=document.createElement("input");
     input.type="checkbox";
     input.classList.add("form-check-input");
     input.checked=item.completed;
+    input.addEventListener("change",toggleCompleted);
 
     // item
     const div=document.createElement("div");
     div.textContent=item.name;
-    div.classList.add="item-name";
+    div.classList.add("item-name");
 
     // delete icon
     const deleteIcon=document.createElement("span");
@@ -67,6 +73,8 @@ function createListItem(item) {
     // li
     const li=document.createElement("li");
     li.className="border rounded p-3 mb-1 d-flex align-items-center";
+    li.toggleAttribute("item-completed",item.completed);
+   
 
     li.appendChild(input);
     li.appendChild(div);
