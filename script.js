@@ -7,7 +7,7 @@ const clearBtn=document.querySelector(".clear");
 
 document.addEventListener("DOMContentLoaded", function() {
     loadItems();
-    displayAlert();
+    updateState();
     shoppingForm.addEventListener("submit",handleFormSubmit);
 
     for(let button of filterButtons) {
@@ -20,14 +20,19 @@ document.addEventListener("DOMContentLoaded", function() {
 function clear() {
      shoppingList.innerHTML="";
      localStorage.clear("shoppingItems");
-     displayAlert();
+     updateState();
 }
-function displayAlert() {
+function updateState() {
+    
     const isEmpty=shoppingList.querySelectorAll("li").length === 0;
+    const filterBtn=document.querySelector(".filter-buttons");
 
     const alert=document.querySelector(".alert");
 
     alert.classList.toggle("d-none",!isEmpty);
+    clearBtn.classList.toggle("d-none",isEmpty);
+    filterBtn.classList.toggle("d-none",isEmpty);
+    
 
 
 }
@@ -76,7 +81,7 @@ function addItem(input) {
     updateFilteredItems();
 
     saveToLS();
-    displayAlert();
+    updateState();
 
 }
 function generateId() {
@@ -138,7 +143,7 @@ function removeItem(e) {
     const li= e.target.parentElement;
     shoppingList.removeChild(li);
     saveToLS();
-    displayAlert();
+    updateState();
 
  }
 
