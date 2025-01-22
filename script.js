@@ -11,17 +11,27 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener("click",handleFilterSelection);
 
     }
-} )
+} );
+
+function saveToLS() {
+    const listItems=document.querySelectorAll("li");
+    const liste=[];
+
+    for(let li of listItems) {
+        const id=li.getAttribute("item-id");
+        const name=li.querySelector(".item-name").textContent;
+        const completed=li.hasAttribute("item-completed");
+
+        liste.push({id,name,completed});
+
+    }
+ localStorage.setItem("shoppingItems",JSON.stringify(liste));
+
+}
 
 
 function loadItems() {
-    const items= [
-        {id:1, name:"Egg", completed:false},
-        {id:2 ,name:"Fish",completed:true},
-        {id:3 ,name:"Milk", completed:false},
-        {id:4 ,name:"Bread",completed:false},
-
-    ];
+    const items= JSON.parse(localStorage.getItem("shoppingItems") || []);
 
     shoppingList.innerHTML="";
 
@@ -44,6 +54,8 @@ function addItem(input) {
 
     updateFilteredItems();
 
+    saveToLS();
+
 }
 function generateId() {
     return Date.now().toString();
@@ -64,6 +76,7 @@ function handleFormSubmit(e) {
     li.toggleAttribute("item-completed",e.target.checked);
 
     updateFilteredItems();
+    saveToLS();
  }
 
 
@@ -90,6 +103,7 @@ function createListItem(item) {
     const li=document.createElement("li");
     li.className="border rounded p-3 mb-1 d-flex align-items-center";
     li.toggleAttribute("item-completed",item.completed);
+    li.setAttribute("item-id",item.id);
    
 
     li.appendChild(input);
@@ -101,6 +115,7 @@ function createListItem(item) {
 function removeItem(e) {
     const li= e.target.parentElement;
     shoppingList.removeChild(li);
+    saveToLS();
 
  }
 
@@ -113,6 +128,7 @@ function removeItem(e) {
 
  function closeEditMode(e) {
     e.target.contentEditable=false;
+    saveToLS();
  }
 function cancelEnter(e) {
     if(e.key=='Enter') {
