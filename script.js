@@ -42,6 +42,8 @@ function addItem(input) {
     shoppingList.appendChild(newItem);
     input.value="";
 
+    updateFilteredItems();
+
 }
 function generateId() {
     return Date.now().toString();
@@ -60,6 +62,8 @@ function handleFormSubmit(e) {
  function toggleCompleted(e) {
     const li =e.target.parentElement;
     li.toggleAttribute("item-completed",e.target.checked);
+
+    updateFilteredItems();
  }
 
 
@@ -129,6 +133,39 @@ function handleFilterSelection(e) {
 
     filterBtn.classList.add("btn-primary");
     filterBtn.classList.remove("btn-secondary");
+
+    filterItems(filterBtn.getAttribute("item-filter"));
+
+
+}
+
+function filterItems(filterType) {
+
+    const li_items=document.querySelectorAll("li");
+    
+    for(let li of li_items) {
+        li.classList.remove("d-block");
+        li.classList.remove("d-none");
+
+        const item_completed=li.hasAttribute("item-completed");
+
+        if(filterType=="completed") {
+            li.classList.toggle(item_completed ? "d-block" :"d-none");
+        }
+        else if(filterType=="incomplete") {
+            li.classList.toggle(item_completed ? "d-none":"d-block");
+
+        }
+        else {
+            li.classList.toggle("d-block");
+
+        }
+    }
+}
+
+function updateFilteredItems() {
+    let activeFilter=document.querySelector(".btn-primary[item-filter]");
+    filterItems(activeFilter.getAttribute("item-filter"));
 
 }
 
