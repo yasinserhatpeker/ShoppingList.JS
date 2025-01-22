@@ -1,17 +1,38 @@
 const shoppingList=document.querySelector(".shopping-list");
 const shoppingForm=document.querySelector(".shopping-form");
 const filterButtons=document.querySelectorAll(".filter-buttons button");
+const clearBtn=document.querySelector(".clear");
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
     loadItems();
+    displayAlert();
     shoppingForm.addEventListener("submit",handleFormSubmit);
 
     for(let button of filterButtons) {
         button.addEventListener("click",handleFilterSelection);
 
     }
+    clearBtn.addEventListener("click",clear);
 } );
+
+function clear() {
+     shoppingList.innerHTML="";
+     localStorage.clear("shoppingItems");
+     displayAlert();
+}
+function displayAlert() {
+    const isEmpty=shoppingList.querySelectorAll("li").length === 0;
+
+    const alert=document.querySelector(".alert");
+
+    alert.classList.toggle("d-none",!isEmpty);
+
+
+}
+
+
 
 function saveToLS() {
     const listItems=document.querySelectorAll("li");
@@ -55,6 +76,7 @@ function addItem(input) {
     updateFilteredItems();
 
     saveToLS();
+    displayAlert();
 
 }
 function generateId() {
@@ -116,6 +138,7 @@ function removeItem(e) {
     const li= e.target.parentElement;
     shoppingList.removeChild(li);
     saveToLS();
+    displayAlert();
 
  }
 
